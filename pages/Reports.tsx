@@ -112,68 +112,8 @@ const Reports: React.FC = () => {
         </div>
       </div>
 
-      {selectedSale && (
-        <div className="fixed inset-0 bg-slate-950/90 backdrop-blur-xl flex items-center justify-center z-[1000] p-4 print:bg-white print:p-0 print:static">
-          <div className="w-full max-w-xl flex flex-col gap-4">
-            <div className="flex gap-4 print:hidden">
-                <button onClick={handlePrint} className="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-2xl">اطبع الآن 🖨️</button>
-                <button onClick={() => setSelectedSale(null)} className="bg-white/10 text-white px-8 py-4 rounded-2xl font-black border border-white/20">إغلاق</button>
-            </div>
-
-            <div id="historical-invoice-print" className="bg-white p-10 w-full text-right print:p-4 shadow-2xl" dir="rtl">
-                <div className="text-center border-b-4 border-double border-slate-900 pb-6 mb-6">
-                    <h1 className="text-3xl font-black text-slate-900">الأشوال للدهانات</h1>
-                    <p className="text-sm font-bold text-slate-500 mt-1 italic uppercase tracking-widest">نسخة تاريخية من الأرشيف</p>
-                </div>
-
-                <div className="flex justify-between items-center mb-8 text-sm font-bold bg-slate-50 p-6 rounded-2xl border">
-                    <div className="flex flex-col gap-1">
-                        <span className="text-slate-400 text-[10px]">رقم الفاتورة</span>
-                        <span className="text-lg font-black text-slate-900">#{selectedSale.invoiceNumber}</span>
-                    </div>
-                    <div className="flex flex-col gap-1 text-center">
-                        <span className="text-slate-400 text-[10px]">اسم العميل</span>
-                        <span className="text-lg font-black text-slate-900">{selectedSale.customerName}</span>
-                    </div>
-                    <div className="flex flex-col gap-1 text-left">
-                        <span className="text-slate-400 text-[10px]">التاريخ</span>
-                        <span className="text-lg font-black text-slate-900">{new Date(selectedSale.date).toLocaleDateString('ar-EG')}</span>
-                    </div>
-                </div>
-
-                <table className="w-full text-sm mb-8 border-collapse">
-                    <thead><tr className="border-b-2 border-slate-900"><th className="py-2 text-right">الصنف</th><th className="py-2 text-center">كمية</th><th className="py-2 text-left">الإجمالي</th></tr></thead>
-                    <tbody className="font-bold divide-y">{selectedSale.items.map((item, idx) => (<tr key={idx}><td className="py-4 text-slate-800">{item.productName}</td><td className="py-4 text-center">{item.quantity}</td><td className="py-4 text-left font-black">{item.total.toLocaleString()} ج.م</td></tr>))}</tbody>
-                </table>
-
-                <div className="space-y-4 pt-6 border-t-2 border-slate-900">
-                    <div className="flex justify-between items-center text-xl font-black"><span>الإجمالي النهائي:</span><span>{selectedSale.totalAmount.toLocaleString()} ج.م</span></div>
-                    <div className="flex justify-between text-emerald-600 font-bold text-sm"><span>المبلغ المحصل نقداً:</span><span>{selectedSale.paidAmount.toLocaleString()} ج.م</span></div>
-                    {selectedSale.debtAmount > 0 && (
-                        <div className="border-4 border-black p-6 bg-slate-50 rounded-2xl flex justify-between items-center font-black mt-4">
-                            <span className="text-xl">المتبقي (الدين):</span>
-                            <span className="text-4xl underline">{selectedSale.debtAmount.toLocaleString()} ج.م</span>
-                        </div>
-                    )}
-                </div>
-
-                <div className="mt-12 text-center border-t border-dashed pt-6 opacity-30">
-                    <p className="text-[10px] font-black">نظام إدارة الأشوال السحابي - تاريخ الاستخراج: {new Date().toLocaleString('ar-EG')}</p>
-                </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <style>{`
-        @media print {
-          body * { visibility: hidden !important; }
-          #historical-invoice-print, #historical-invoice-print * { visibility: visible !important; }
-          #historical-invoice-print { position: fixed !important; left: 0 !important; top: 0 !important; width: 100% !important; border: none !important; box-shadow: none !important; }
-        }
-      `}</style>
-    </div>
+     
   );
 };
 
-export default Reports;
+export default
