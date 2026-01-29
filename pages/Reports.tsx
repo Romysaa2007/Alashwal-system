@@ -111,6 +111,111 @@ const Reports: React.FC = () => {
           </table>
         </div>
       </div>
+{/* الفاتورة الفعلية - هي دي اللي بتطبع */}
+            <div id="invoice-print-area" className="bg-white p-8 w-full shadow-2xl print:shadow-none print:border-0 print:p-4 text-right" dir="rtl">
+                <div className="text-center border-b-4 border-double border-slate-900 pb-6 mb-6">
+                    <h1 className="text-3xl font-black text-slate-900">الأشوال للدهانات</h1>
+                    <p className="text-sm font-bold text-slate-500 mt-">محافظه الغربيه, مركز طنطا, قريه شبرا - رقم التليفون: 01228836919</p>
+                    <div className="mt-4 flex justify-between items-center px-4">
+                        <span className="bg-slate-900 text-white px-3 py-1 rounded-md text-xs font-black">فاتورة مبيعات</span>
+                        <span className="text-xs font-bold text-slate-500">{new Date(lastSale.date).toLocaleString('ar-EG')}</span>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mb-6 border-b pb-4">
+                    <p className="text-sm font-bold">رقم الفاتورة: <span className="font-black">#{lastSale.invoiceNumber}</span></p>
+                    <p className="text-sm font-bold text-left">العميل: <span className="font-black">{lastSale.customerName}</span></p>
+                </div>
+
+                <table className="w-full text-sm mb-8">
+                    <thead className="border-b-2 border-slate-900">
+                        <tr>
+                            <th className="py-2 text-right">الصنف</th>
+                            <th className="py-2 text-center">كمية</th>
+                            <th className="py-2 text-left">الإجمالي</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                        {lastSale.items.map((item, idx) => (
+                            <tr key={idx}>
+                                <td className="py-3 font-bold">{item.productName}</td>
+                                <td className="py-3 text-center font-bold">{item.quantity}</td>
+                                <td className="py-3 text-left font-black">{item.total} ج.م</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+                <div className="space-y-4 pt-4">
+                    <div className="flex justify-between items-center text-lg font-bold">
+                        <span>إجمالي الحساب:</span>
+                        <span className="text-2xl font-black border-b-2 border-slate-900">{lastSale.totalAmount} ج.م</span>
+                    </div>
+                    <div className="flex justify-between items-center text-base text-emerald-700 font-bold">
+                        <span>المبلغ المدفوع:</span>
+                        <span>{lastSale.paidAmount} ج.م</span>
+                    </div>
+
+                    {/* خانة الدين - مبروزة وواضحة جداً */}
+                    {lastSale.debtAmount > 0 ? (
+                        <div className="border-4 border-slate-900 p-6 rounded-xl bg-slate-50">
+                            <div className="flex justify-between items-center">
+                                <span className="text-2xl font-black text-slate-900">المتبقي (الدين):</span>
+                                <span className="text-4xl font-black text-slate-900 underline">{lastSale.debtAmount} ج.م</span>
+                            </div>
+                            <p className="text-center text-[10px] font-bold mt-4 uppercase tracking-widest text-slate-500">يرجى مراجعة الحساب قبل المغادرة</p>
+                        </div>
+                    ) : (
+                        <div className="text-center py-4 bg-emerald-50 rounded-xl border border-emerald-200">
+                            <p className="font-black text-emerald-700">الفاتورة خالصة - شكراً لتعاملكم معنا</p>
+                        </div>
+                    )}
+                </div>
+
+                <div className="mt-12 text-center border-t border-dashed pt-6">
+                    <p className="text-xs font-black text-slate-400">مع تحيات إدارة الأشوال</p>
+                    <p className="text-[10px] text-slate-300">نظام إدارة المبيعات v2.0</p>
+                </div>
+            </div>
+            
+            <button onClick={() => setShowPreview(false)} className="w-full bg-white text-slate-900 py-4 rounded-2xl font-black print:hidden">
+               العودة للكاشير ↩️
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* تنسيقات الطباعة الإلزامية */}
+      <style>{`
+        @media print {
+          /* إخفاء كل شيء في الصفحة */
+          body * { 
+            visibility: hidden !important; 
+          }
+          /* إظهار منطقة الفاتورة فقط */
+          #invoice-print-area, #invoice-print-area * { 
+            visibility: visible !important; 
+          }
+          /* تثبيت الفاتورة في أعلى الصفحة عند الطباعة */
+          #invoice-print-area { 
+            position: absolute !important; 
+            left: 0 !important; 
+            top: 0 !important; 
+            width: 100% !important; 
+            margin: 0 !important;
+            padding: 10px !important;
+            border: none !important;
+          }
+          /* ضبط اتجاه الصفحة */
+          @page {
+            size: auto;
+            margin: 5mm;
+          }
+        }
+      `}</style>
+    </>
+  );
+};
 
      
   
